@@ -4,12 +4,12 @@ const CONFIG = {
 
   HEO_HOME_BANNER_ENABLE: true,
 
-  HEO_SITE_CREATE_TIME: '2021-09-21', // 建站日期，用于计算网站运行的第几天
+  HEO_SITE_CREATE_TIME: '2026-5-10', // 建站日期，用于计算网站运行的第几天
 
   // 首页顶部通知条滚动内容，如不需要可以留空 []
   HEO_NOTICE_BAR: [
     { title: '欢迎来到公司教学平台', url: 'https://blog.tangly1024.com' },
-    { title: '访问文档中心获取更多帮助', url: 'https://docs.tangly1024.com' }
+    { title: '让赣锋成为消费电子产品能源的主要提供者', url: 'https://docs.tangly1024.com' }
   ],
 
   // 英雄区左右侧组件颠倒位置
@@ -23,7 +23,7 @@ const CONFIG = {
   //HEO_HERO_TITLE_3: 'TANGLY1024.COM',
   //HEO_HERO_TITLE_4: '新版上线',
   //HEO_HERO_TITLE_5: 'NotionNext4.0 轻松定制主题',
-  //HEO_HERO_TITLE_LINK: 'https://tangly1024.com',
+  //HEO_HERO_TITLE_LINK: 'https://temp.aoki.dpdns.org',
   // 英雄区遮罩文字
   //HEO_HERO_COVER_TITLE: '随便逛逛',
 
