@@ -96,14 +96,23 @@ const CONFIG = {
   // =====================
   // ✅ 最终生效 CSS
   // =====================
-  HEO_CUSTOM_CSS: `
-    .today-card-cover {
-      content: url('/images/heo/52dbbb528a707449caa7b315be3a0baa.jpg') !important;
-    }
-    .right-sidebar .sticky {
-      display: none !important;
-    }
-  `,
+ HEO_CUSTOM_CSS: `
+  /* 1. 替换右侧推荐卡片背景图 */
+  img.today-card-cover,
+  #today-card-cover {
+    content: url('/images/heo/52dbbb528a707449caa7b315be3a0baa.jpg') !important;
+    object-fit: cover !important;
+  }
 
-}
+  /* 2. 彻底隐藏右侧蓝色信息卡片（核心！） */
+  .info-card,
+  div[class*="info-card"],
+  .sticky > div:first-child {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+`,
 export default CONFIG
