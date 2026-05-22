@@ -43,7 +43,7 @@ const CONFIG = {
   HEO_HERO_RECOMMEND_COVER_ENABLE: false, // 是否显示推荐文章遮罩图片，true显示遮罩需点击查看，false直接显示推荐文章
 
   // 右侧个人资料卡牌欢迎语，点击可自动切换
-  //HEO_INFOCARD_GREETINGS: [
+  HEO_INFOCARD_GREETINGS: [
   //  '你好！我是',
     //'🔍 分享与热心帮助',
     //'🤝 专修交互与设计',
