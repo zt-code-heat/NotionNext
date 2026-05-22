@@ -17,9 +17,9 @@ const CONFIG = {
   // =======================
   // 英雄区标题
   // =======================
-  HEO_HERO_TITLE_1: '分享公司最新案例',
-  HEO_HERO_TITLE_2: '思维与认知',
-  HEO_HERO_TITLE_LINK: 'https://notion-next-19dt.top/',
+  //HEO_HERO_TITLE_1: '分享公司最新案例',
+  //HEO_HERO_TITLE_2: '思维与认知',
+  //HEO_HERO_TITLE_LINK: 'https://notion-next-19dt.top/',
 
   // =======================
   // ✅ 关闭图标墙 + 背景图
@@ -27,7 +27,7 @@ const CONFIG = {
   HEO_HERO_ICONS_ENABLE: false,
   HEO_HERO_BACKGROUND_IMAGE: '/images/heo/8015c16f210710fd996da7d0c3d9a0a7.jpg',
   HEO_HERO_TEXT_COLOR: '#ffffff',
-  HEO_HERO_COVER_TITLE: '随便逛逛',
+  HEO_HERO_COVER_TITLE: '分享公司最新案例思维与认知',
 
   // ✅ 强制关闭图标墙（终极生效）
   HEO_HERO_ICON_SWITCH: false,
