@@ -45,13 +45,10 @@ const Hero = props => {
  */
 function BannerGroup(props) {
   return (
-    // 左侧英雄区
     <div
       id='bannerGroup'
       className='flex flex-col justify-between flex-1 mr-2 max-w-[42rem]'>
-      {/* 动图 */}
       <Banner {...props} />
-      {/* 导航分类 */}
       <GroupMenu />
     </div>
   )
@@ -64,16 +61,12 @@ function BannerGroup(props) {
 function Banner(props) {
   const router = useRouter()
   const { allNavPages } = props
-  /**
-   * 随机跳转文章
-   */
   function handleClickBanner() {
     const randomIndex = Math.floor(Math.random() * allNavPages.length)
     const randomPost = allNavPages[randomIndex]
     router.push(`${siteConfig('SUB_PATH', '')}/${randomPost?.slug}`)
   }
 
-  // 遮罩文字
   const coverTitle = siteConfig('HEO_HERO_COVER_TITLE')
 
   return (
@@ -81,23 +74,36 @@ function Banner(props) {
       id='banners'
       onClick={handleClickBanner}
       className='hidden xl:flex xl:flex-col group h-full bg-white dark:bg-[#1e1e1e] rounded-xl border dark:border-gray-700 mb-3 relative overflow-hidden'>
+      
+      {/* ======================= */}
+      {/* ✅ 这里直接放背景图 + 文字 */}
+      {/* ======================= */}
+      <div 
+        style={{
+          backgroundImage: `url(${siteConfig('HEO_HERO_BACKGROUND_IMAGE', '', CONFIG)})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 0
+        }}
+      ></div>
+
       <div
         id='banner-title'
         className='z-10 flex flex-col absolute top-10 left-10'>
-        <div className='text-4xl font-bold mb-3  dark:text-white'>
+        <div className='text-4xl font-bold mb-3 text-white'>
           {siteConfig('HEO_HERO_TITLE_1', null, CONFIG)}
           <br />
           {siteConfig('HEO_HERO_TITLE_2', null, CONFIG)}
         </div>
-        <div className='text-xs text-gray-600  dark:text-gray-200'>
-          {siteConfig('HEO_HERO_TITLE_3', null, CONFIG)}
-        </div>
       </div>
 
-      {/* 斜向滚动的图标 */}
-      <TagsGroupBar />
+      {/* ❌ 图标墙已经彻底删除！ */}
 
-      {/* 遮罩 */}
       <div
         id='banner-cover'
         style={{ backdropFilter: 'blur(15px)' }}
@@ -110,53 +116,6 @@ function Banner(props) {
             <ArrowSmallRight className={'w-24 h-24 stroke-2'} />
           </div>
         </div>
-      </div>
-    </div>
-  )
-}
-
-/**
- * 图标滚动标签组
- * 英雄区左上角banner条中斜向滚动的图标
- */
-function TagsGroupBar() {
-  let groupIcons = siteConfig('HEO_GROUP_ICONS', null, CONFIG)
-  if (groupIcons) {
-    groupIcons = groupIcons.concat(groupIcons)
-  }
-  return (
-    <div className='tags-group-all flex -rotate-[30deg] h-full'>
-      <div className='tags-group-wrapper flex flex-nowrap absolute top-16'>
-        {groupIcons?.map((g, index) => {
-          return (
-            <div key={index} className='tags-group-icon-pair ml-6 select-none'>
-              <div
-                style={{ background: g.color_1 }}
-                className={
-                  'tags-group-icon w-28 h-28 rounded-3xl flex items-center justify-center text-white text-lg font-bold shadow-md'
-                }>
-                <LazyImage
-                  priority={true}
-                  src={g.img_1}
-                  title={g.title_1}
-                  className='w-2/3 hidden xl:block'
-                />
-              </div>
-              <div
-                style={{ background: g.color_2 }}
-                className={
-                  'tags-group-icon  mt-5 w-28 h-28 rounded-3xl flex items-center justify-center text-white text-lg font-bold shadow-md'
-                }>
-                <LazyImage
-                  priority={true}
-                  src={g.img_2}
-                  title={g.title_2}
-                  className='w-2/3 hidden xl:block'
-                />
-              </div>
-            </div>
-          )
-        })}
       </div>
     </div>
   )
@@ -183,9 +142,6 @@ function GroupMenu() {
           {title_1}
           <span className='absolute -bottom-0.5 left-5 w-5 h-0.5 bg-white rounded-full'></span>
         </div>
-        <div className='hidden lg:block absolute right-6  duration-700 ease-in-out transition-all scale-[2] translate-y-6 rotate-12 opacity-20 group-hover:opacity-80 group-hover:scale-100 group-hover:translate-y-0 group-hover:rotate-0'>
-          <i className='fa-solid fa-star text-4xl'></i>
-        </div>
       </SmartLink>
       <SmartLink
         href={url_2}
@@ -194,20 +150,13 @@ function GroupMenu() {
           {title_2}
           <span className='absolute -bottom-0.5 left-5 w-5 h-0.5 bg-white rounded-full'></span>
         </div>
-        <div className='hidden lg:block absolute right-6  duration-700 ease-in-out transition-all scale-[2] translate-y-6 rotate-12 opacity-20 group-hover:opacity-80 group-hover:scale-100 group-hover:translate-y-0 group-hover:rotate-0'>
-          <i className='fa-solid fa-fire-flame-curved text-4xl'></i>
-        </div>
       </SmartLink>
-      {/* 第三个标签在小屏上不显示 */}
       <SmartLink
         href={url_3}
         className='group relative overflow-hidden bg-gradient-to-r from-teal-300 to-cyan-300 hidden h-20 xl:flex justify-start items-center text-white rounded-xl xl:hover:w-1/2 xl:w-1/3 transition-all duration-500 ease-in'>
         <div className='font-bold text-lg pl-5 relative -mt-2'>
           {title_3}
           <span className='absolute -bottom-0.5 left-5 w-5 h-0.5 bg-white rounded-full'></span>
-        </div>
-        <div className='absolute right-6 duration-700 ease-in-out transition-all scale-[2] translate-y-6 rotate-12 opacity-20 group-hover:opacity-80 group-hover:scale-100 group-hover:translate-y-0 group-hover:rotate-0'>
-          <i className='fa-solid fa-book-bookmark text-4xl '></i>
         </div>
       </SmartLink>
     </div>
@@ -225,7 +174,6 @@ function TopGroup(props) {
     todayCardRef.current.coverUp()
   }
 
-  // 获取置顶推荐文章
   const topPosts = getTopPosts({ latestPosts, allNavPages })
 
   return (
@@ -233,7 +181,6 @@ function TopGroup(props) {
       id='hero-right-wrapper'
       onMouseLeave={handleMouseLeave}
       className='flex-1 relative w-full'>
-      {/* 置顶推荐文章 */}
       <div
         id='top-group'
         className='w-full flex space-x-3 xl:space-x-0 xl:grid xl:grid-cols-3 xl:gap-3 xl:h-[342px]'>
@@ -250,7 +197,6 @@ function TopGroup(props) {
                 <div className='group-hover:text-indigo-600 dark:group-hover:text-yellow-600 line-clamp-2 overflow-hidden m-2 font-semibold'>
                   {p?.title}
                 </div>
-                {/* hover 悬浮的 ‘荐’ 字 */}
                 <div className='opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 duration-200 transition-all absolute -top-2 -left-2 bg-indigo-600 dark:bg-yellow-600  text-white rounded-xl overflow-hidden pr-2 pb-2 pl-4 pt-4 text-xs'>
                   {locale.COMMON.RECOMMEND_BADGES}
                 </div>
@@ -259,33 +205,18 @@ function TopGroup(props) {
           )
         })}
       </div>
-      {/* 一个大的跳转文章卡片 */}
       <TodayCard cRef={todayCardRef} siteInfo={siteInfo} />
     </div>
   )
 }
 
-/**
- * 获取推荐置顶文章
- */
 function getTopPosts({ latestPosts, allNavPages }) {
-  // 默认展示最近更新
-  if (
-    !siteConfig('HEO_HERO_RECOMMEND_POST_TAG', null, CONFIG) ||
-    siteConfig('HEO_HERO_RECOMMEND_POST_TAG', null, CONFIG) === ''
-  ) {
+  if (!siteConfig('HEO_HERO_RECOMMEND_POST_TAG', null, CONFIG) || siteConfig('HEO_HERO_RECOMMEND_POST_TAG', null, CONFIG) === '') {
     return latestPosts
   }
 
-  // 显示包含‘推荐’标签的文章
   let sortPosts = []
-
-  // 排序方式
-  if (
-    JSON.parse(
-      siteConfig('HEO_HERO_RECOMMEND_POST_SORT_BY_UPDATE_TIME', null, CONFIG)
-    )
-  ) {
+  if (JSON.parse(siteConfig('HEO_HERO_RECOMMEND_POST_SORT_BY_UPDATE_TIME', null, CONFIG))) {
     sortPosts = Object.create(allNavPages).sort((a, b) => {
       const dateA = new Date(a?.lastEditedDate)
       const dateB = new Date(b?.lastEditedDate)
@@ -297,84 +228,50 @@ function getTopPosts({ latestPosts, allNavPages }) {
 
   const topPosts = []
   for (const post of sortPosts) {
-    if (topPosts.length === 6) {
-      break
-    }
-    // 查找标签
-    if (
-      post?.tags?.indexOf(
-        siteConfig('HEO_HERO_RECOMMEND_POST_TAG', null, CONFIG)
-      ) >= 0
-    ) {
+    if (topPosts.length === 6) break
+    if (post?.tags?.indexOf(siteConfig('HEO_HERO_RECOMMEND_POST_TAG', null, CONFIG)) >= 0) {
       topPosts.push(post)
     }
   }
   return topPosts
 }
 
-/**
- * 英雄区右侧，今日卡牌
- * @returns
- */
 function TodayCard({ cRef, siteInfo }) {
   const router = useRouter()
   const link = siteConfig('HEO_HERO_TITLE_LINK', null, CONFIG)
   const { locale } = useGlobal()
-  // 获取遮罩控制配置
   const coverEnable = siteConfig('HEO_HERO_RECOMMEND_COVER_ENABLE', true, CONFIG)
-  // 卡牌是否盖住下层，如果配置为false则默认不盖住
   const [isCoverUp, setIsCoverUp] = useState(coverEnable)
 
-  /**
-   * 外部可以调用此方法
-   */
   useImperativeHandle(cRef, () => {
     return {
       coverUp: () => {
-        if (coverEnable) {
-          setIsCoverUp(true)
-        }
+        if (coverEnable) setIsCoverUp(true)
       }
     }
   })
 
-  /**
-   * 查看更多
-   * @param {*} e
-   */
   function handleClickShowMore(e) {
     e.stopPropagation()
     setIsCoverUp(false)
   }
 
-  /**
-   * 点击卡片跳转的链接
-   * @param {*} e
-   */
   function handleCardClick(e) {
     router.push(link)
   }
 
-  // 如果配置为不显示遮罩，则不渲染TodayCard
-  if (!coverEnable) {
-    return null
-  }
+  if (!coverEnable) return null
 
   return (
     <div
       id='today-card'
-      className={`${
-        isCoverUp ? ' ' : 'pointer-events-none'
-      } overflow-hidden absolute hidden xl:flex flex-1 flex-col h-full top-0 w-full`}>
+      className={`${isCoverUp ? ' ' : 'pointer-events-none'
+        } overflow-hidden absolute hidden xl:flex flex-1 flex-col h-full top-0 w-full`}>
       <div
         id='card-body'
         onClick={handleCardClick}
-        className={`${
-          isCoverUp
-            ? 'opacity-100 cursor-pointer'
-            : 'opacity-0 transform scale-110 pointer-events-none'
-        } shadow transition-all duration-200 today-card h-full bg-black rounded-xl relative overflow-hidden flex items-end`}>
-        {/* 卡片文字信息 */}
+        className={`${isCoverUp ? 'opacity-100 cursor-pointer' : 'opacity-0 transform scale-110 pointer-events-none'
+          } shadow transition-all duration-200 today-card h-full bg-black rounded-xl relative overflow-hidden flex items-end`}>
         <div
           id='today-card-info'
           className='flex justify-between w-full relative text-white p-10 items-end'>
@@ -386,7 +283,6 @@ function TodayCard({ cRef, siteInfo }) {
               {siteConfig('HEO_HERO_TITLE_5', null, CONFIG)}
             </div>
           </div>
-          {/* 查看更多的按钮 */}
           <div
             onClick={handleClickShowMore}
             className={`'${isCoverUp ? '' : 'hidden pointer-events-none'} z-10 group flex items-center px-3 h-10 justify-center  rounded-3xl
@@ -401,15 +297,11 @@ function TodayCard({ cRef, siteInfo }) {
             </div>
           </div>
         </div>
-
-        {/* 封面图 */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={siteInfo?.pageCover}
           id='today-card-cover'
-          className={`${
-            isCoverUp ? '' : ' pointer-events-none'
-          } hover:scale-110 duration-1000 object-cover cursor-pointer today-card-cover absolute w-full h-full top-0`}
+          className={`${isCoverUp ? '' : ' pointer-events-none'
+            } hover:scale-110 duration-1000 object-cover cursor-pointer today-card-cover absolute w-full h-full top-0`}
         />
       </div>
     </div>
