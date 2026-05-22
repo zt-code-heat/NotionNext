@@ -94,25 +94,18 @@ const CONFIG = {
   HEO_WIDGET_TOC: true,
 
   // =====================
-  // ✅ 最终生效 CSS
+  // ✅ 正确语法！解决两个问题
   // =====================
- HEO_CUSTOM_CSS: `
-  /* 1. 替换右侧推荐卡片背景图 */
-  img.today-card-cover,
-  #today-card-cover {
-    content: url('/images/heo/52dbbb528a707449caa7b315be3a0baa.jpg') !important;
-    object-fit: cover !important;
-  }
+  HEO_CUSTOM_CSS: `
+    /* 替换右侧推荐卡片图片 */
+    .today-card-cover {
+      content: url('/images/heo/52dbbb528a707449caa7b315be3a0baa.jpg') !important;
+    }
+    /* 隐藏右侧蓝色信息卡片 */
+    .info-card {
+      display: none !important;
+    }
+  `
+}
 
-  /* 2. 彻底隐藏右侧蓝色信息卡片（核心！） */
-  .info-card,
-  div[class*="info-card"],
-  .sticky > div:first-child {
-    display: none !important;
-    visibility: hidden !important;
-    height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-`,
 export default CONFIG
