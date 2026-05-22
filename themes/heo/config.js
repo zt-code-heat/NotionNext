@@ -15,33 +15,29 @@ const CONFIG = {
   HEO_HERO_BODY_REVERSE: false,
 
   // =======================
-  // 英雄区标题（你原来的）
-  // =======================
-  HEO_HERO_TITLE_1: '分享公司最新案例',
-  HEO_HERO_TITLE_2: '思维与认知',
-  HEO_HERO_TITLE_LINK: 'https://notion-next-19dt.top/',
+  /// 英雄区标题（你原来的）
+HEO_HERO_TITLE_1: '分享公司最新案例',
+HEO_HERO_TITLE_2: '思维与认知',
+HEO_HERO_TITLE_LINK: 'https://notion-next-19dt.top/',
 
-  // =======================
-  // ✅ 关键：关闭图标墙 + 设置你的背景图
-  // =======================
-  HEO_HERO_ICONS_ENABLE: false, // 关闭滚动图标墙
-  HEO_HERO_BACKGROUND_IMAGE: '/images/heo/8015c16f210710fd996da7d0c3d9a0a7.jpg', // 你的公司图
-  HEO_HERO_TEXT_COLOR: '#ffffff', // 文字变白，更清晰
+// ✅ 关键：关闭图标墙 + 设置你的背景图
+HEO_HERO_ICONS_ENABLE: false, // 关闭滚动图标墙
+HEO_HERO_BACKGROUND_IMAGE: '/images/heo/8015c16f210710fd996da7d0c3d9a0a7.jpg', // 你的公司图（路径已修正）
+HEO_HERO_TEXT_COLOR: '#ffffff', // 文字变白，更清晰
 
-  // 英雄区按钮
-  HEO_HERO_COVER_TITLE: '随便逛逛',
+// 英雄区按钮
+HEO_HERO_COVER_TITLE: '随便逛逛',
 
-  // 英雄区三个分类
-  HEO_HERO_CATEGORY_1: { title: '必看', url: '/tag/必看' },
-  HEO_HERO_CATEGORY_2: { title: '热门文章', url: '/tag/热门文章' },
-  HEO_HERO_CATEGORY_3: { title: '公司文化', url: '/tag/公司文化' },
+// 英雄区三个分类
+HEO_HERO_CATEGORY_1: { title: '必看', url: '/tag/必看' },
+HEO_HERO_CATEGORY_2: { title: '热门文章', url: '/tag/热门文章' },
+HEO_HERO_CATEGORY_3: { title: '公司文化', url: '/tag/公司文化' },
 
-  // 推荐文章（你原来的）
-  HEO_HERO_RECOMMEND_POST_TAG: '推荐',
-  HEO_HERO_RECOMMEND_POST_COUNT: 1,
-  HEO_HERO_RECOMMEND_COVER_SCALE: 1.4,
-  HEO_HERO_RECOMMEND_POST_SORT_BY_UPDATE_TIME: false,
-
+// 推荐文章（你原来的）
+HEO_HERO_RECOMMEND_POST_TAG: '推荐',
+HEO_HERO_RECOMMEND_POST_COUNT: 1,
+HEO_HERO_RECOMMEND_COVER_SCALE: 1.4,
+HEO_HERO_RECOMMEND_POST_SORT_BY_UPDATE_TIME: false,
   // 推荐文章遮罩
   HEO_HERO_RECOMMEND_COVER: '/images/heo/8015c16f210710fd996da7d0c3d9a0a7.jpg',
   HEO_HERO_RECOMMEND_COVER_ENABLE: true,
