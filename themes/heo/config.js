@@ -17,12 +17,12 @@ const CONFIG = {
   // =======================
   // 英雄区标题
   // =======================
-  //HEO_HERO_TITLE_1: '分享公司最新案例',
-  //HEO_HERO_TITLE_2: '思维与认知',
-  //HEO_HERO_TITLE_LINK: 'https://notion-next-19dt.top/',
+  HEO_HERO_TITLE_1: '分享公司最新案例',
+  HEO_HERO_TITLE_2: '思维与认知',
+  HEO_HERO_TITLE_LINK: 'https://notion-next-19dt.top/',
 
   // =======================
-  // ✅ 关闭图标墙 + 背景图
+  // ✅ 左侧保持不变
   // =======================
   HEO_HERO_ICONS_ENABLE: false,
   HEO_HERO_BACKGROUND_IMAGE: '/images/heo/8015c16f210710fd996da7d0c3d9a0a7.jpg',
@@ -45,7 +45,11 @@ const CONFIG = {
   HEO_HERO_RECOMMEND_POST_COUNT: 1,
   HEO_HERO_RECOMMEND_COVER_SCALE: 1.4,
   HEO_HERO_RECOMMEND_POST_SORT_BY_UPDATE_TIME: false,
-  HEO_HERO_RECOMMEND_COVER: '/images/heo/8015c16f210710fd996da7d0c3d9a0a7.jpg',
+
+  // ==============================
+  // ✅ 只改这里！右侧换成新图
+  // ==============================
+  HEO_HERO_RECOMMEND_COVER: '/images/heo/52dbbb528a707449caa7b315be3a0baa.jpg',
   HEO_HERO_RECOMMEND_COVER_ENABLE: true,
 
   // 右侧个人资料卡牌欢迎语
@@ -67,7 +71,7 @@ const CONFIG = {
   HEO_GROUP_ICONS: [
     {
       title_1: 'AfterEffect',
-      img_1: '/images/heo/20239df3f66615b532ce571eac6d14ff21cf072602.webp',
+      img_1: '/images/heo/20239df3f66615b5232ce571eac6d14ff21cf072602.webp',
       color_1: '#989bf8',
       title_2: 'Sketch',
       img_2: '/images/heo/2023e0ded7b724a39f12d59c3dc8fbdc7cbe074202.webp',
