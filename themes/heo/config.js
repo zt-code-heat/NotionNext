@@ -29,8 +29,8 @@ const CONFIG = {
   HEO_HERO_ICONS: false,
 
   HEO_HERO_CATEGORY_1: { title: '必看', url: '/tag/必看' },
-  HEO_HERO_CATEGORY_2: { title: '热门文章', url: '/tag/热门文章' },
-  HEO_HERO_CATEGORY_3: { title: '公司文化', url: '/tag/公司文化' },
+  HEO_HERO_CATEGORY_2: { title: '视频中心', url: '/tag/视频中心' },
+  HEO_HERO_CATEGORY_3: { title: '学习园地', url: '/tag/学习园地' },
 
   HEO_HERO_RECOMMEND_POST_TAG: '推荐',
   HEO_HERO_RECOMMEND_POST_COUNT: 1,
