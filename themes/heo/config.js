@@ -14,8 +14,6 @@ const CONFIG = {
   HEO_HERO_REVERSE: false,
   HEO_HERO_BODY_REVERSE: false,
 
-  //HEO_HERO_TITLE_1: '分享公司最新案例',
-  //HEO_HERO_TITLE_2: '思维与认知',
   HEO_HERO_TITLE_LINK: 'https://notion-next-19dt.top/',
 
   HEO_HERO_ICONS_ENABLE: false,
@@ -93,17 +91,24 @@ const CONFIG = {
   HEO_WIDGET_DARK_MODE: true,
   HEO_WIDGET_TOC: true,
 
-  // =====================
-  // ✅ 正确语法！解决两个问题
-  // =====================
+  // 🔥 最终生效：隐藏右侧卡片 + 替换宇航员图 + 关闭邮件RSS
   HEO_CUSTOM_CSS: `
-    /* 替换右侧推荐卡片图片 */
-    .today-card-cover {
+    /* 1. 替换右侧宇航员图片 */
+    #today-card-cover, .today-card-cover, .today-card img {
       content: url('/images/heo/52dbbb528a707449caa7b315be3a0baa.jpg') !important;
     }
-    /* 隐藏右侧蓝色信息卡片 */
-    .info-card {
+    /* 2. 隐藏右侧蓝色个人卡片 */
+    .right-sidebar, #right-side {
       display: none !important;
+    }
+    /* 3. 隐藏底部邮件、RSS图标 */
+    .social-button, .footer-right svg, .footer-right a[href*="rss"], .footer-right a[href*="mailto"] {
+      display: none !important;
+    }
+    /* 4. 让内容铺满屏幕 */
+    #container-inner > div:first-child {
+      width: 100% !important;
+      max-width: 100% !important;
     }
   `
 }
