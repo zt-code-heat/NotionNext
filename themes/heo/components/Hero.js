@@ -1,4 +1,3 @@
-// import Image from 'next/image'
 import { ArrowSmallRight, PlusSmall } from '@/components/HeroIcons'
 import LazyImage from '@/components/LazyImage'
 import { siteConfig } from '@/lib/config'
@@ -8,13 +7,6 @@ import { useRouter } from 'next/router'
 import { useImperativeHandle, useRef, useState } from 'react'
 import CONFIG from '../config'
 
-/**
- * 顶部英雄区
- * 左右布局，
- * 左侧：banner组
- * 右侧：今日卡牌遮罩
- * @returns
- */
 const Hero = props => {
   const HEO_HERO_REVERSE = siteConfig('HEO_HERO_REVERSE', false, CONFIG)
   return (
@@ -26,23 +18,14 @@ const Hero = props => {
         style={{ zIndex: 1 }}
         className={`${HEO_HERO_REVERSE ? 'xl:flex-row-reverse' : ''}
            recent-post-top rounded-[12px] 2xl:px-5 recent-top-post-group max-w-[86rem] overflow-x-scroll w-full mx-auto flex-row flex-nowrap flex relative`}>
-        {/* 左侧banner组 */}
         <BannerGroup {...props} />
-
-        {/* 中间留白 */}
         <div className='px-1.5 h-full'></div>
-
-        {/* 右侧置顶文章组 */}
         <TopGroup {...props} />
       </div>
     </div>
   )
 }
 
-/**
- * 英雄区左侧banner组
- * @returns
- */
 function BannerGroup(props) {
   return (
     <div
@@ -54,10 +37,6 @@ function BannerGroup(props) {
   )
 }
 
-/**
- * 英雄区左上角banner动图
- * @returns
- */
 function Banner(props) {
   const router = useRouter()
   const { allNavPages } = props
@@ -74,11 +53,8 @@ function Banner(props) {
       id='banners'
       onClick={handleClickBanner}
       className='hidden xl:flex xl:flex-col group h-full bg-white dark:bg-[#1e1e1e] rounded-xl border dark:border-gray-700 mb-3 relative overflow-hidden'>
-      
-      {/* ======================= */}
-      {/* ✅ 这里直接放背景图 + 文字 */}
-      {/* ======================= */}
-      <div 
+
+      <div
         style={{
           backgroundImage: `url(${siteConfig('HEO_HERO_BACKGROUND_IMAGE', '', CONFIG)})`,
           backgroundSize: 'cover',
@@ -102,8 +78,6 @@ function Banner(props) {
         </div>
       </div>
 
-      {/* ❌ 图标墙已经彻底删除！ */}
-
       <div
         id='banner-cover'
         style={{ backdropFilter: 'blur(15px)' }}
@@ -121,10 +95,6 @@ function Banner(props) {
   )
 }
 
-/**
- * 英雄区左下角3个指定分类按钮
- * @returns
- */
 function GroupMenu() {
   const url_1 = siteConfig('HEO_HERO_CATEGORY_1', {}, CONFIG)?.url || ''
   const title_1 = siteConfig('HEO_HERO_CATEGORY_1', {}, CONFIG)?.title || ''
@@ -163,9 +133,6 @@ function GroupMenu() {
   )
 }
 
-/**
- * 置顶文章区域
- */
 function TopGroup(props) {
   const { latestPosts, allNavPages, siteInfo } = props
   const { locale } = useGlobal()
@@ -265,13 +232,11 @@ function TodayCard({ cRef, siteInfo }) {
   return (
     <div
       id='today-card'
-      className={`${isCoverUp ? ' ' : 'pointer-events-none'
-        } overflow-hidden absolute hidden xl:flex flex-1 flex-col h-full top-0 w-full`}>
+      className={`${isCoverUp ? ' ' : 'pointer-events-none'} overflow-hidden absolute hidden xl:flex flex-1 flex-col h-full top-0 w-full`}>
       <div
         id='card-body'
         onClick={handleCardClick}
-        className={`${isCoverUp ? 'opacity-100 cursor-pointer' : 'opacity-0 transform scale-110 pointer-events-none'
-          } shadow transition-all duration-200 today-card h-full bg-black rounded-xl relative overflow-hidden flex items-end`}>
+        className={`${isCoverUp ? 'opacity-100 cursor-pointer' : 'opacity-0 transform scale-110 pointer-events-none'} shadow transition-all duration-200 today-card h-full bg-black rounded-xl relative overflow-hidden flex items-end`}>
         <div
           id='today-card-info'
           className='flex justify-between w-full relative text-white p-10 items-end'>
@@ -285,23 +250,20 @@ function TodayCard({ cRef, siteInfo }) {
           </div>
           <div
             onClick={handleClickShowMore}
-            className={`'${isCoverUp ? '' : 'hidden pointer-events-none'} z-10 group flex items-center px-3 h-10 justify-center  rounded-3xl
-            glassmorphism transition-colors duration-100 `}>
+            className={`${isCoverUp ? '' : 'hidden pointer-events-none'} z-10 group flex items-center px-3 h-10 justify-center  rounded-3xl glassmorphism transition-colors duration-100`}>
             <PlusSmall
-              className={
-                'group-hover:rotate-180 duration-500 transition-all w-6 h-6 mr-2 bg-white rounded-full stroke-black'
-              }
+              className={'group-hover:rotate-180 duration-500 transition-all w-6 h-6 mr-2 bg-white rounded-full stroke-black'}
             />
             <div id='more' className='select-none'>
               {locale.COMMON.RECOMMEND_POSTS}
             </div>
           </div>
         </div>
+        {/* 核心修改：在这里直接写死你想要的图片地址 */}
         <img
-          src={siteInfo?.pageCover}
-          id='today-card-cover'
-          className={`${isCoverUp ? '' : ' pointer-events-none'
-            } hover:scale-110 duration-1000 object-cover cursor-pointer today-card-cover absolute w-full h-full top-0`}
+          src="/images/heo/52dbbb528a707449caa7b315be3a0baa.jpg"
+          id="today-card-cover"
+          className="hover:scale-110 duration-1000 object-cover cursor-pointer today-card-cover absolute w-full h-full top-0"
         />
       </div>
     </div>
