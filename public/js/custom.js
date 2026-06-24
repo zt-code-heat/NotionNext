@@ -5,7 +5,7 @@ window.addEventListener('load', function () {
     const IMAGE_LIST = [
         "/bg_image.jpg",
         "/6318a3af42577c493c1c2c7b8f3b1549.jpg",
-        "/企业微信截图_17821855135900 (1).png"
+        "/17821855135900 (1).png"
     ];
     // =================================
 
