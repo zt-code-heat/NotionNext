@@ -1,83 +1,87 @@
-// Simple主题专用 无人闲置自动PPT循环播放脚本
 window.addEventListener('load', function () {
-    // ========== 可自定义配置项（单位：毫秒） ==========
-    const IDLE_WAIT_TIME = 30 * 1000;    // 闲置30秒无操作开始自动播放
-    const PAGE_STAY_TIME = 6 * 1000;     // 每个页面区块停留6秒后切换
-    const AUTO_FULLSCREEN = false;       // 关闭自动全屏（如需开启改为true）
-    // ==============================================
+    // ========== 自定义配置区 ==========
+    const IDLE_WAIT = 30 * 1000;      // 闲置30秒触发全屏轮播
+    const IMAGE_SWITCH_DELAY = 5000; // 每张图片停留5秒后切换
+    const IMAGE_LIST = [
+        "/bg_image.jpg",
+        "/6318a3af42577c493c1c2c7b8f3b1549.jpg",
+        "/企业微信截图_17821855135900 (1).png"
+    ];
+    // =================================
 
     let idleTimer = null;
-    let loopTimer = null;
-    let isAutoPlaying = false;
+    let slideTimer = null;
+    let fullscreenMask = null;
+    let currentImgIndex = 0;
 
-    // Simple主题精准DOM选择器（首页固定存在，兼容性拉满）
-    const slideAreas = [
-        document.querySelector('.hero'),                // 顶部首页横幅推荐区
-        document.querySelector('.flex.flex-wrap.gap-4'), // 必看精选/热门文章标签区
-        document.querySelector('.grid.grid-cols-1.lg\\:grid-cols-3.gap-6'), // 文章卡片列表
-        document.querySelector('footer')                 // 页脚区域
-    ].filter(el => el !== null);
-
-    // 重置计时器、停止自动播放
-    function resetIdleTimer() {
+    // 关闭全屏轮播、重置计时器
+    function closeFullScreenSlide() {
         clearTimeout(idleTimer);
-        clearInterval(loopTimer);
-        isAutoPlaying = false;
-        // 退出全屏
-        if (document.exitFullscreen) document.exitFullscreen();
-        idleTimer = setTimeout(startSlidePlay, IDLE_WAIT_TIME);
-    }
-
-    // 开启自动循环滚动播放
-    function startSlidePlay() {
-        if (slideAreas.length === 0) return;
-        isAutoPlaying = true;
-        let currentIndex = 0;
-
-        // 自动全屏逻辑
-        if (AUTO_FULLSCREEN && !document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch(err => {
-                console.log('浏览器需点击页面一次才可触发全屏');
-            })
+        clearInterval(slideTimer);
+        if (fullscreenMask) {
+            fullscreenMask.remove();
+            fullscreenMask = null;
         }
-
-        loopTimer = setInterval(() => {
-            slideAreas[currentIndex].scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-            currentIndex = (currentIndex + 1) % slideAreas.length;
-        }, PAGE_STAY_TIME);
+        if (document.exitFullscreen) document.exitFullscreen();
+        idleTimer = setTimeout(openFullScreenSlide, IDLE_WAIT);
     }
 
-    // 监听所有用户交互行为，任意操作立即停止播放
-    ['mousemove', 'mousedown', 'keydown', 'wheel', 'touchstart'].forEach(event => {
-        window.addEventListener(event, resetIdleTimer);
-    })
+    // 打开全屏轮播
+    function openFullScreenSlide() {
+        if (fullscreenMask) return;
 
-    // 初始化闲置计时
-    resetIdleTimer();
+        // 创建全屏遮罩
+        fullscreenMask = document.createElement('div');
+        fullscreenMask.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        `;
 
-    // 右下角悬浮播放状态提示
-    const tipDom = document.createElement('div');
-    tipDom.style.cssText = `
-        position: fixed;
-        right: 24px;
-        bottom: 24px;
-        background: rgba(0, 0, 0, 0.7);
-        color: #ffffff;
-        padding: 10px 16px;
-        border-radius: 8px;
-        font-size: 14px;
-        z-index: 99999;
-        pointer-events: none;
-        display: none;
-    `;
-    tipDom.innerText = '🎬 幻灯片自动播放中，移动鼠标即可退出';
-    document.body.appendChild(tipDom);
+        // 创建图片容器
+        const imgBox = document.createElement('img');
+        imgBox.style.cssText = `
+            max-width: 95vw;
+            max-height: 95vh;
+            object-fit: contain;
+            transition: opacity 0.8s ease;
+        `;
+        imgBox.src = IMAGE_LIST[currentImgIndex];
+        fullscreenMask.appendChild(imgBox);
+        document.body.appendChild(fullscreenMask);
 
-    // 控制提示框显示隐藏
-    setInterval(() => {
-        tipDom.style.display = isAutoPlaying ? 'block' : 'none';
-    }, 100);
-})
+        // 尝试进入全屏（浏览器需用户先点击一次页面）
+        document.documentElement.requestFullscreen().catch(err => {});
+
+        // 任意操作立即关闭
+        ['click', 'mousemove', 'touchstart', 'wheel', 'keydown'].forEach(ev => {
+            fullscreenMask.addEventListener(ev, closeFullScreenSlide);
+            window.addEventListener(ev, closeFullScreenSlide);
+        });
+
+        // 循环切换图片
+        slideTimer = setInterval(() => {
+            currentImgIndex = (currentImgIndex + 1) % IMAGE_LIST.length;
+            imgBox.style.opacity = 0;
+            setTimeout(() => {
+                imgBox.src = IMAGE_LIST[currentImgIndex];
+                imgBox.style.opacity = 1;
+            }, 800);
+        }, IMAGE_SWITCH_DELAY);
+    }
+
+    // 监听用户操作，重置计时器
+    ['mousemove', 'mousedown', 'keydown', 'touchstart', 'wheel'].forEach(event => {
+        window.addEventListener(event, closeFullScreenSlide);
+    });
+
+    // 初始化倒计时
+    idleTimer = setTimeout(openFullScreenSlide, IDLE_WAIT);
+});
