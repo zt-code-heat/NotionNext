@@ -1,79 +1,83 @@
-// 这里编写自定义js脚本；将被静态引入到页面中
-// Heo主题专用 无人操作自动PPT循环播放脚本
+// Simple主题专用 无人闲置自动PPT循环播放脚本
 window.addEventListener('load', function () {
-    // ========== 可自定义配置 ==========
-    const IDLE_SECONDS = 30;    // 闲置30秒无操作开始自动播放
-    const PLAY_SECONDS = 6;      // 每个页面区块停留6秒切换
-    const AUTO_FULLSCREEN = true;// 是否开启自动全屏PPT模式
-    // ==================================
+    // ========== 可自定义配置项（单位：毫秒） ==========
+    const IDLE_WAIT_TIME = 30 * 1000;    // 闲置30秒无操作开始自动播放
+    const PAGE_STAY_TIME = 6 * 1000;     // 每个页面区块停留6秒后切换
+    const AUTO_FULLSCREEN = false;       // 关闭自动全屏（如需开启改为true）
+    // ==============================================
 
     let idleTimer = null;
     let loopTimer = null;
-    let isPlaying = false;
+    let isAutoPlaying = false;
 
-    // Heo主题稳定DOM选择器（首页必存在，不会匹配失败）
+    // Simple主题精准DOM选择器（首页固定存在，兼容性拉满）
     const slideAreas = [
-        document.querySelector('.banner'),       // 顶部横幅区域
-        document.querySelector('.post-list'),    // 文章列表区域
-        document.querySelector('.aside'),        // 侧边栏
-        document.querySelector('footer')         // 页脚
+        document.querySelector('.hero'),                // 顶部首页横幅推荐区
+        document.querySelector('.flex.flex-wrap.gap-4'), // 必看精选/热门文章标签区
+        document.querySelector('.grid.grid-cols-1.lg\\:grid-cols-3.gap-6'), // 文章卡片列表
+        document.querySelector('footer')                 // 页脚区域
     ].filter(el => el !== null);
 
     // 重置计时器、停止自动播放
-    function resetTimer() {
+    function resetIdleTimer() {
         clearTimeout(idleTimer);
         clearInterval(loopTimer);
-        isPlaying = false;
+        isAutoPlaying = false;
         // 退出全屏
         if (document.exitFullscreen) document.exitFullscreen();
-        // 重新开始闲置倒计时
-        idleTimer = setTimeout(startPlay, IDLE_SECONDS * 1000);
+        idleTimer = setTimeout(startSlidePlay, IDLE_WAIT_TIME);
     }
 
-    // 开启循环幻灯片自动滚动
-    function startPlay() {
+    // 开启自动循环滚动播放
+    function startSlidePlay() {
         if (slideAreas.length === 0) return;
-        isPlaying = true;
+        isAutoPlaying = true;
         let currentIndex = 0;
 
-        // 自动全屏
+        // 自动全屏逻辑
         if (AUTO_FULLSCREEN && !document.fullscreenElement) {
             document.documentElement.requestFullscreen().catch(err => {
-                console.log('浏览器需要点击页面一次后才能全屏');
+                console.log('浏览器需点击页面一次才可触发全屏');
             })
         }
 
-        // 循环平滑滚动
         loopTimer = setInterval(() => {
             slideAreas[currentIndex].scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
             currentIndex = (currentIndex + 1) % slideAreas.length;
-        }, PLAY_SECONDS * 1000);
+        }, PAGE_STAY_TIME);
     }
 
-    // 监听所有用户操作：鼠标、键盘、滚轮、触屏
+    // 监听所有用户交互行为，任意操作立即停止播放
     ['mousemove', 'mousedown', 'keydown', 'wheel', 'touchstart'].forEach(event => {
-        window.addEventListener(event, resetTimer);
+        window.addEventListener(event, resetIdleTimer);
     })
 
-    // 初始化计时
-    resetTimer();
+    // 初始化闲置计时
+    resetIdleTimer();
 
-    // 右下角悬浮提示样式
-    const tip = document.createElement('div');
-    tip.style.cssText = `
-        position:fixed;right:24px;bottom:24px;
-        background:rgba(0,0,0,0.7);color:#fff;
-        padding:10px 16px;border-radius:8px;font-size:14px;
-        z-index:99999;pointer-events:none;display:none;
+    // 右下角悬浮播放状态提示
+    const tipDom = document.createElement('div');
+    tipDom.style.cssText = `
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        background: rgba(0, 0, 0, 0.7);
+        color: #ffffff;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        z-index: 99999;
+        pointer-events: none;
+        display: none;
     `;
-    tip.innerText = '🎬 幻灯片自动播放中，移动鼠标即可退出';
-    document.body.appendChild(tip);
+    tipDom.innerText = '🎬 幻灯片自动播放中，移动鼠标即可退出';
+    document.body.appendChild(tipDom);
 
-    // 播放时显示提示
+    // 控制提示框显示隐藏
     setInterval(() => {
-        tip.style.display = isPlaying ? 'block' : 'none';
-    }, 100)
+        tipDom.style.display = isAutoPlaying ? 'block' : 'none';
+    }, 100);
 })
