@@ -1,87 +1,74 @@
 window.addEventListener('load', function () {
-    // ========== 自定义配置区 ==========
-    const IDLE_WAIT = 30 * 1000;      // 闲置30秒触发全屏轮播
-    const IMAGE_SWITCH_DELAY = 5000; // 每张图片停留5秒后切换
+    // 闲置等待30秒触发全屏轮播，单张图片停留5秒
+    const IDLE_WAIT = 30 * 1000;
+    const IMAGE_SWITCH_DELAY = 5000;
+    // 完整图片列表：bg_image、随机图、picture1~picture4
     const IMAGE_LIST = [
-        "/bg_image.jpg",
         "/6318a3af42577c493c1c2c7b8f3b1549.jpg",
-        "/17821855135900 (1).png"
+        "/picture1.png",
+        "/picture2.png",
+        "/picture3.png",
+        "/picture4.png"
     ];
-    // =================================
 
     let idleTimer = null;
     let slideTimer = null;
-    let fullscreenMask = null;
-    let currentImgIndex = 0;
+    let maskDom = null;
+    let currentIndex = 0;
 
-    // 关闭全屏轮播、重置计时器
-    function closeFullScreenSlide() {
+    // 关闭全屏遮罩，重置倒计时
+    function closeSlideMask() {
         clearTimeout(idleTimer);
         clearInterval(slideTimer);
-        if (fullscreenMask) {
-            fullscreenMask.remove();
-            fullscreenMask = null;
+        if (maskDom) {
+            maskDom.remove();
+            maskDom = null;
         }
         if (document.exitFullscreen) document.exitFullscreen();
-        idleTimer = setTimeout(openFullScreenSlide, IDLE_WAIT);
+        idleTimer = setTimeout(openSlideMask, IDLE_WAIT);
     }
 
-    // 打开全屏轮播
-    function openFullScreenSlide() {
-        if (fullscreenMask) return;
-
-        // 创建全屏遮罩
-        fullscreenMask = document.createElement('div');
-        fullscreenMask.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-            z-index: 999999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    // 创建全屏图片轮播遮罩
+    function openSlideMask() {
+        if (maskDom) return;
+        // 黑色全屏底层
+        maskDom = document.createElement('div');
+        maskDom.style.cssText = `
+            position: fixed;top:0;left:0;width:100vw;height:100vh;background:#000;
+            z-index:999999;display:flex;align-items:center;justify-content:center;
         `;
-
-        // 创建图片容器
-        const imgBox = document.createElement('img');
-        imgBox.style.cssText = `
-            max-width: 95vw;
-            max-height: 95vh;
-            object-fit: contain;
-            transition: opacity 0.8s ease;
+        // 图片容器（关键修改：object-fit: cover 铺满全屏）
+        const img = document.createElement('img');
+        img.style.cssText = `
+            width:100vw;
+            height:100vh;
+            object-fit:cover; /* 铺满屏幕，会裁剪边缘保持比例 */
+            transition:opacity 0.7s ease;opacity:1;
         `;
-        imgBox.src = IMAGE_LIST[currentImgIndex];
-        fullscreenMask.appendChild(imgBox);
-        document.body.appendChild(fullscreenMask);
-
-        // 尝试进入全屏（浏览器需用户先点击一次页面）
-        document.documentElement.requestFullscreen().catch(err => {});
-
-        // 任意操作立即关闭
-        ['click', 'mousemove', 'touchstart', 'wheel', 'keydown'].forEach(ev => {
-            fullscreenMask.addEventListener(ev, closeFullScreenSlide);
-            window.addEventListener(ev, closeFullScreenSlide);
+        img.src = IMAGE_LIST[currentIndex];
+        maskDom.appendChild(img);
+        document.body.appendChild(maskDom);
+        // 尝试浏览器全屏
+        document.documentElement.requestFullscreen().catch(()=>{});
+        // 任意操作关闭轮播
+        ['mousemove','click','touchstart','wheel','keydown'].forEach(ev=>{
+            maskDom.addEventListener(ev, closeSlideMask);
+            window.addEventListener(ev, closeSlideMask);
         });
-
-        // 循环切换图片
-        slideTimer = setInterval(() => {
-            currentImgIndex = (currentImgIndex + 1) % IMAGE_LIST.length;
-            imgBox.style.opacity = 0;
-            setTimeout(() => {
-                imgBox.src = IMAGE_LIST[currentImgIndex];
-                imgBox.style.opacity = 1;
-            }, 800);
+        // 自动切换图片
+        slideTimer = setInterval(()=>{
+            img.style.opacity = 0;
+            setTimeout(()=>{
+                currentIndex = (currentIndex + 1) % IMAGE_LIST.length;
+                img.src = IMAGE_LIST[currentIndex];
+                img.style.opacity = 1;
+            },700);
         }, IMAGE_SWITCH_DELAY);
     }
 
-    // 监听用户操作，重置计时器
-    ['mousemove', 'mousedown', 'keydown', 'touchstart', 'wheel'].forEach(event => {
-        window.addEventListener(event, closeFullScreenSlide);
+    // 监听所有用户交互，重置等待计时
+    ['mousemove','mousedown','touchstart','wheel','keydown'].forEach(event=>{
+        window.addEventListener(event, closeSlideMask);
     });
-
-    // 初始化倒计时
-    idleTimer = setTimeout(openFullScreenSlide, IDLE_WAIT);
-});
+    idleTimer = setTimeout(openSlideMask, IDLE_WAIT);
+})
