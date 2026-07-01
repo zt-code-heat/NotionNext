@@ -4,7 +4,7 @@ window.addEventListener('load', function () {
     const IMAGE_SWITCH_DELAY = 5000;
     // 完整图片列表
     const IMAGE_LIST = [
-        "/picture1.3.png",
+        "/picture1.1.1.png",
         "/picture1.1.png",
         "/picture1.2.png"
     ];
