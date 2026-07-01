@@ -6,7 +6,7 @@ window.addEventListener('load', function () {
     const IMAGE_LIST = [
         "/picture1.3.png",
         "/picture1.1.png",
-        "/picture1.3.png"
+        "/picture1.2.png"
     ];
 
     let idleTimer = null;
